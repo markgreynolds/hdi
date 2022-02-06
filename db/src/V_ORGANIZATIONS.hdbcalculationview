@@ -267,31 +267,31 @@
 <layout>
   <shapes>
     <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
-      <upperLeftCorner x="524" y="112"/>
+      <upperLeftCorner x="524.6018422452994" y="112"/>
     
       <rectangleSize width="160"/>
     </shape>
     
   
     <shape expanded="true" modelObjectName="West_Organizations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="91" y="511"/>
+      <upperLeftCorner x="91.99999999999997" y="551.9999976158142"/>
       <rectangleSize height="30" width="189"/>
     </shape>
     <shape expanded="true" modelObjectName="East_Organizations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="575" y="511"/>
+      <upperLeftCorner x="575.9999999999999" y="551.9999976158142"/>
       <rectangleSize height="30" width="175"/>
     </shape>
     <shape expanded="true" modelObjectName="Central_Organizations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="330" y="541"/>
+      <upperLeftCorner x="330.99999999999994" y="551.9999976158142"/>
       <rectangleSize height="30" width="195"/>
     </shape>
     <shape expanded="true" modelObjectName="All_Organizations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="348" y="356"/>
+      <upperLeftCorner x="348.5" y="376.9999988079071"/>
       <rectangleSize height="30" width="160"/>
     </shape>
   
     <shape expanded="true" modelObjectName="Final_Organizations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="404" y="195"/>
+      <upperLeftCorner x="508.6018422452994" y="217"/>
       <rectangleSize height="30" width="192"/>
     </shape>
     <shape modelObjectName="Divisions_DIM" modelObjectNameSpace="Final_Organizations" modelObjectType="JoinNodeInput">
@@ -303,7 +303,7 @@
       <rectangleSize width="208"/>
     </shape>
     <shape expanded="true" modelObjectName="Divisions_DIM" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="565" y="356"/>
+      <upperLeftCorner x="565.3249332469521" y="376.9999988079071"/>
       <rectangleSize height="30" width="160"/>
     </shape>
   </shapes>
