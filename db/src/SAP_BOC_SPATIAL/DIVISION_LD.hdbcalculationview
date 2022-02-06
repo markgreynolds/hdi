@@ -56,7 +56,7 @@
     
   
     <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="62" y="222"/>
+      <upperLeftCorner x="-34" y="200"/>
       <rectangleSize height="30" width="160"/>
     </shape>
   </shapes>
