@@ -5,5 +5,11 @@
   },
   "scripts": {
     "start": "node node_modules/@sap/hdi-deploy/deploy.js"
-  }
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
