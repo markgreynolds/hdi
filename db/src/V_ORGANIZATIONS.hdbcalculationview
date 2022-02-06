@@ -282,7 +282,7 @@
       <rectangleSize height="30" width="175"/>
     </shape>
     <shape expanded="true" modelObjectName="Central_Organizations" modelObjectNameSpace="CalculationView">
-      <upperLeftCorner x="330" y="511"/>
+      <upperLeftCorner x="330" y="541"/>
       <rectangleSize height="30" width="195"/>
     </shape>
     <shape expanded="true" modelObjectName="All_Organizations" modelObjectNameSpace="CalculationView">
