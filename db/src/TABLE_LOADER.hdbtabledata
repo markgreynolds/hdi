@@ -1,0 +1,86 @@
+{
+    "format_version": 1,
+    "imports": [
+        {
+            "target_table": "ORGANIZATION_CENTRAL",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "central_data.csv",
+                "has_header": true
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "ORG_ID",
+                    "ORG_NAME",
+                    "ORG_ADDRESS",
+                    "ORG_CITY",
+                    "ORG_CONTACT",
+                    "ORG_RATING",
+                    "ORG_TOTAL_SALES"
+                ]
+            }
+        },
+        {
+            "target_table": "ORGANIZATION_EAST",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "east_data.csv",
+                "has_header": true
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "EAST_ID",
+                    "EAST_NAME",
+                    "EAST_ADDRESS",
+                    "EAST_CITY",
+                    "EAST_SALES"
+                ]
+            }
+        },
+        {
+            "target_table": "ORGANIZATION_WEST",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "west_data.csv",
+                "has_header": true
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "WEST_ID",
+                    "WEST_NAME",
+                    "WEST_ADDRESS",
+                    "WEST_CITY",
+                    "WEST_CONTACT",
+                    "WEST_RATING",
+                    "WEST_SALES"
+                ]
+            }
+        },
+        {
+            "target_table": "DIVISIONS_DIM",
+            "source_data": {
+                "data_type": "CSV",
+                "file_name": "divisions.csv",
+                "has_header": true
+            },
+            "import_settings": {
+                "include_filter": [],
+                "import_columns": [
+                    "DIVISION_ID",
+                    "DIVISION_NAME",
+                    "DIVISION_CONTACT",
+                    "DIVISION_DESCRIPTION",
+                    "DIVISION_ADDRESS",
+                    "DIVISION_CITY",
+                    "DIVISION_STATE",
+                    "DIVISION_PHONE",
+                    "DIVISION_LATITUDE",
+                    "DIVISION_LONGITUDE"
+                ]
+            }
+        }
+    ]
+}

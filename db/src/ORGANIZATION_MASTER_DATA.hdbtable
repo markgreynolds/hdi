@@ -1,0 +1,8 @@
+COLUMN TABLE "ORGANIZATION_MASTER_DATA" (
+    "ORG_NAME" NVARCHAR(200) COMMENT 'Evaluation results',
+    "ORG_CUST_SINCE" DATE COMMENT 'Customer Since',
+    "ORG_LAST_ORDER" DATE COMMENT 'Date of last order',
+    "ORG_SAT_INDEX" INTEGER COMMENT 'Lastest survey rating',
+    PRIMARY KEY ("ORG_NAME")
+)
+COMMENT 'Combined Organization Master Data'

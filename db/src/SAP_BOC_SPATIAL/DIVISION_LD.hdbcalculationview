@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="SAP_BOC_SPATIAL::DIVISION_LD" applyPrivilegeType="NONE" dataCategory="DIMENSION" dimensionType="STANDARD" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="DIVISION_LD"/>
+<localVariables/>
+<variableMappings/>
+<dataSources>
+  <DataSource id="DIVISIONS_DIM">
+    <resourceUri>DIVISIONS_DIM</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Projection_1">
+    <viewAttributes>
+      <viewAttribute id="DIVISION_ID"/>
+      <viewAttribute id="DIVISION_NAME"/>
+      <viewAttribute id="DIVISION_LATITUDE"/>
+      <viewAttribute id="DIVISION_LONGITUDE"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="DIVISION_POINT" datatype="ST_GEOMETRY" expressionLanguage="SQL">
+        <formula>st_transform(ST_GeomFromText('POINT(' || &quot;DIVISION_LONGITUDE&quot; || ' ' || &quot;DIVISION_LATITUDE&quot; || ')', 4326), 3857)</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="DIVISIONS_DIM"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Projection_1">
+  <attributes>
+    <attribute id="DIVISION_ID_LD" order="1" displayAttribute="false" attributeHierarchyActive="false" descriptionColumnName="DIVISION_NAME_LD">
+      <descriptions defaultDescription="Division ID"/>
+      <keyMapping columnObjectName="Projection_1" columnName="DIVISION_ID"/>
+    </attribute>
+    <attribute id="DIVISION_POINT_LD" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DIVISION_POINT"/>
+      <keyMapping columnObjectName="Projection_1" columnName="DIVISION_POINT"/>
+    </attribute>
+  
+    <attribute id="DIVISION_NAME_LD" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="DIVISION_NAME"/>
+  
+      <keyMapping columnObjectName="Projection_1" columnName="DIVISION_NAME"/>
+  
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="Projection_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="62" y="222"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

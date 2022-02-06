@@ -1,0 +1,10 @@
+column table "ORGANIZATION_EAST" (
+    "EAST_ID" NVARCHAR(200) not null COMMENT 'Organization Identification',
+    "EAST_NAME"  NVARCHAR(200) COMMENT 'Organization Name',
+    "EAST_ADDRESS"  NVARCHAR(200) COMMENT 'Primary Address',
+    "EAST_CITY" NVARCHAR(200) COMMENT 'Primary City',
+    "EAST_CONTACT" NVARCHAR(200) COMMENT 'Primary Contact Name',
+    "EAST_SALES" DOUBLE COMMENT 'Total Sales',
+    PRIMARY KEY ("EAST_ID")
+)
+COMMENT 'Customer status information'

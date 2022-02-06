@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="V_ORGANIZATIONS" applyPrivilegeType="NONE" dataCategory="CUBE" schemaVersion="3.0" outputViewType="Aggregation" cacheInvalidationPeriod="NONE" enforceSqlExecution="true">
+<descriptions defaultDescription="V_ORGANIZATIONS"/>
+<localVariables>
+  <variable id="IP_DIVISION" parameter="true">
+    <descriptions defaultDescription="Division Name or All"/>
+    <variableProperties datatype="NVARCHAR" length="13" mandatory="false" defaultValue="*" scale="NaN">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="SingleValue"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources>
+  <DataSource id="ORGANIZATION_WEST">
+    <resourceUri>ORGANIZATION_WEST</resourceUri>
+  </DataSource>
+  <DataSource id="ORGANIZATION_EAST">
+    <resourceUri>ORGANIZATION_EAST</resourceUri>
+  </DataSource>
+  <DataSource id="ORGANIZATION_CENTRAL">
+    <resourceUri>ORGANIZATION_CENTRAL</resourceUri>
+  </DataSource>
+  <DataSource id="DIVISIONS_DIM">
+    <resourceUri>DIVISIONS_DIM</resourceUri>
+  </DataSource>
+</dataSources>
+<calculationViews>
+  <calculationView xsi:type="Calculation:ProjectionView" id="West_Organizations">
+    <viewAttributes>
+      <viewAttribute id="WEST_ID"/>
+      <viewAttribute id="WEST_NAME"/>
+      <viewAttribute id="WEST_ADDRESS"/>
+      <viewAttribute id="WEST_CITY"/>
+      <viewAttribute id="WEST_CONTACT"/>
+      <viewAttribute id="WEST_RATING"/>
+      <viewAttribute id="WEST_SALES"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="WEST_DIVISION" datatype="NVARCHAR" length="200" expressionLanguage="SQL">
+        <formula>'West'</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="ORGANIZATION_WEST"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="East_Organizations">
+    <viewAttributes>
+      <viewAttribute id="EAST_ID"/>
+      <viewAttribute id="EAST_NAME"/>
+      <viewAttribute id="EAST_ADDRESS"/>
+      <viewAttribute id="EAST_CITY"/>
+      <viewAttribute id="EAST_CONTACT"/>
+      <viewAttribute id="EAST_SALES"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="EAST_EXTRACT_DIVISION" datatype="NVARCHAR" length="200" expressionLanguage="SQL">
+        <formula>left(&quot;EAST_ID&quot;, LOCATE(&quot;EAST_ID&quot;, '-') - 1)</formula>
+      </calculatedViewAttribute>
+      <calculatedViewAttribute id="EAST_EXTRACT_ID" datatype="INTEGER" expressionLanguage="SQL">
+        <formula>substr(&quot;EAST_ID&quot;, locate(&quot;EAST_ID&quot;, '-') + 1)</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="ORGANIZATION_EAST"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Central_Organizations">
+    <viewAttributes>
+      <viewAttribute id="ORG_ID"/>
+      <viewAttribute id="ORG_NAME"/>
+      <viewAttribute id="ORG_ADDRESS"/>
+      <viewAttribute id="ORG_CITY"/>
+      <viewAttribute id="ORG_CONTACT"/>
+      <viewAttribute id="ORG_RATING"/>
+      <viewAttribute id="ORG_TOTAL_SALES"/>
+    </viewAttributes>
+    <calculatedViewAttributes>
+      <calculatedViewAttribute id="CENTRAL_DIVISION" datatype="NVARCHAR" length="200" expressionLanguage="SQL">
+        <formula>'Central'</formula>
+      </calculatedViewAttribute>
+    </calculatedViewAttributes>
+    <input node="ORGANIZATION_CENTRAL"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:UnionView" id="All_Organizations" filterExpressionLanguage="SQL">
+    <viewAttributes>
+      <viewAttribute datatype="NVARCHAR" length="200" id="CUSTOMER_DIVISION"/>
+      <viewAttribute datatype="INTEGER" id="CUSTOMER_ID"/>
+      <viewAttribute id="CUSTOMER_NAME"/>
+      <viewAttribute id="CUSTOMER_ADDRESS"/>
+      <viewAttribute id="CUSTOMER_CITY"/>
+      <viewAttribute id="CUSTOMER_CONTACT"/>
+      <viewAttribute id="CUSTOMER_RATING"/>
+      <viewAttribute id="CUSTOMER_SALES"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="West_Organizations" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_DIVISION" source="WEST_DIVISION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ID" source="WEST_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_NAME" source="WEST_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ADDRESS" source="WEST_ADDRESS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CITY" source="WEST_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CONTACT" source="WEST_CONTACT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_RATING" source="WEST_RATING"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_SALES" source="WEST_SALES"/>
+    </input>
+    <input node="East_Organizations" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_DIVISION" source="EAST_EXTRACT_DIVISION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ID" source="EAST_EXTRACT_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_NAME" source="EAST_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ADDRESS" source="EAST_ADDRESS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CITY" source="EAST_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CONTACT" source="EAST_CONTACT"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="CUSTOMER_RATING" null="true" value=""/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_SALES" source="EAST_SALES"/>
+    </input>
+    <input node="Central_Organizations" emptyUnionBehavior="NO_ROW">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_DIVISION" source="CENTRAL_DIVISION"/>
+      <mapping xsi:type="Calculation:ConstantAttributeMapping" target="CUSTOMER_ID" null="true" value=""/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_NAME" source="ORG_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ADDRESS" source="ORG_ADDRESS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CITY" source="ORG_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CONTACT" source="ORG_CONTACT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_RATING" source="ORG_RATING"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_SALES" source="ORG_TOTAL_SALES"/>
+    </input>
+    <filter>&quot;CUSTOMER_DIVISION&quot; = '$$IP_DIVISION$$' or '$$IP_DIVISION$$' = '*'</filter>
+  </calculationView>
+  <calculationView xsi:type="Calculation:JoinView" id="Final_Organizations" cardinality="C1_N" joinType="inner">
+    <viewAttributes>
+      <viewAttribute id="DIVISION_ID" aggregationType="sum"/>
+      <viewAttribute id="DIVISION_NAME"/>
+      <viewAttribute id="DIVISION_CONTACT"/>
+      <viewAttribute id="DIVISION_DESCRIPTION"/>
+      <viewAttribute id="DIVISION_ADDRESS"/>
+      <viewAttribute id="DIVISION_CITY"/>
+      <viewAttribute id="DIVISION_STATE"/>
+      <viewAttribute id="DIVISION_PHONE"/>
+      <viewAttribute id="DIVISION_LATITUDE" aggregationType="sum"/>
+      <viewAttribute id="DIVISION_LONGITUDE" aggregationType="sum"/>
+      <viewAttribute id="CUSTOMER_ID" aggregationType="sum"/>
+      <viewAttribute id="CUSTOMER_NAME"/>
+      <viewAttribute id="CUSTOMER_ADDRESS"/>
+      <viewAttribute id="CUSTOMER_CITY"/>
+      <viewAttribute id="CUSTOMER_CONTACT"/>
+      <viewAttribute id="CUSTOMER_RATING" aggregationType="sum"/>
+      <viewAttribute id="CUSTOMER_SALES" aggregationType="sum"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="Divisions_DIM">
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_ID" source="DIVISION_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_NAME" source="DIVISION_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_CONTACT" source="DIVISION_CONTACT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_DESCRIPTION" source="DIVISION_DESCRIPTION"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_ADDRESS" source="DIVISION_ADDRESS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_CITY" source="DIVISION_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_STATE" source="DIVISION_STATE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_PHONE" source="DIVISION_PHONE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_LATITUDE" source="DIVISION_LATITUDE"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_LONGITUDE" source="DIVISION_LONGITUDE"/>
+    </input>
+    <input node="All_Organizations">
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ID" source="CUSTOMER_ID"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_NAME" source="CUSTOMER_NAME"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_ADDRESS" source="CUSTOMER_ADDRESS"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CITY" source="CUSTOMER_CITY"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_CONTACT" source="CUSTOMER_CONTACT"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_RATING" source="CUSTOMER_RATING"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="CUSTOMER_SALES" source="CUSTOMER_SALES"/>
+      <mapping xsi:type="Calculation:AttributeMapping" target="DIVISION_NAME" source="CUSTOMER_DIVISION"/>
+    </input>
+    <joinAttribute name="DIVISION_NAME"/>
+  </calculationView>
+  <calculationView xsi:type="Calculation:ProjectionView" id="Divisions_DIM">
+    <viewAttributes>
+      <viewAttribute id="DIVISION_ID"/>
+      <viewAttribute id="DIVISION_NAME"/>
+      <viewAttribute id="DIVISION_CONTACT"/>
+      <viewAttribute id="DIVISION_DESCRIPTION"/>
+      <viewAttribute id="DIVISION_ADDRESS"/>
+      <viewAttribute id="DIVISION_CITY"/>
+      <viewAttribute id="DIVISION_STATE"/>
+      <viewAttribute id="DIVISION_PHONE"/>
+      <viewAttribute id="DIVISION_LATITUDE"/>
+      <viewAttribute id="DIVISION_LONGITUDE"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <input node="DIVISIONS_DIM"/>
+  </calculationView>
+</calculationViews>
+
+<logicalModel id="Final_Organizations">
+  <attributes>
+    <attribute id="DIVISION_ID" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division ID"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_ID"/>
+    </attribute>
+    <attribute id="DIVISION_NAME" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division name"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_NAME"/>
+    </attribute>
+    <attribute id="DIVISION_CONTACT" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division point of contact"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_CONTACT"/>
+    </attribute>
+    <attribute id="DIVISION_DESCRIPTION" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division description"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_DESCRIPTION"/>
+    </attribute>
+    <attribute id="DIVISION_ADDRESS" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division address"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_ADDRESS"/>
+    </attribute>
+    <attribute id="DIVISION_CITY" order="6" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division city"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_CITY"/>
+    </attribute>
+    <attribute id="DIVISION_STATE" order="7" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division state"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_STATE"/>
+    </attribute>
+    <attribute id="DIVISION_PHONE" order="8" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division phone"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_PHONE"/>
+    </attribute>
+    <attribute id="DIVISION_LATITUDE" order="9" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division latitude (4326)"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_LATITUDE"/>
+    </attribute>
+    <attribute id="DIVISION_LONGITUDE" order="10" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="Division latitude (4326)"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="DIVISION_LONGITUDE"/>
+    </attribute>
+    <attribute id="CUSTOMER_ID" order="11" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_ID"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_ID"/>
+    </attribute>
+    <attribute id="CUSTOMER_NAME" order="12" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_NAME"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_NAME"/>
+    </attribute>
+    <attribute id="CUSTOMER_ADDRESS" order="13" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_ADDRESS"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_ADDRESS"/>
+    </attribute>
+    <attribute id="CUSTOMER_CITY" order="14" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_CITY"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_CITY"/>
+    </attribute>
+    <attribute id="CUSTOMER_CONTACT" order="15" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="CUSTOMER_CONTACT"/>
+      <keyMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_CONTACT"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures>
+    <measure id="CUSTOMER_RATING" order="16" aggregationType="avg" measureType="simple">
+      <descriptions defaultDescription="CUSTOMER_RATING"/>
+      <measureMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_RATING"/>
+    </measure>
+    <measure id="CUSTOMER_SALES" order="17" aggregationType="sum" measureType="simple">
+      <descriptions defaultDescription="CUSTOMER_SALES"/>
+      <measureMapping columnObjectName="Final_Organizations" columnName="CUSTOMER_SALES"/>
+    </measure>
+  </baseMeasures>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+  <localDimensions/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="524" y="112"/>
+    
+      <rectangleSize width="160"/>
+    </shape>
+    
+  
+    <shape expanded="true" modelObjectName="West_Organizations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="91" y="511"/>
+      <rectangleSize height="30" width="189"/>
+    </shape>
+    <shape expanded="true" modelObjectName="East_Organizations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="575" y="511"/>
+      <rectangleSize height="30" width="175"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Central_Organizations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="330" y="511"/>
+      <rectangleSize height="30" width="195"/>
+    </shape>
+    <shape expanded="true" modelObjectName="All_Organizations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="348" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Final_Organizations" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="404" y="195"/>
+      <rectangleSize height="30" width="192"/>
+    </shape>
+    <shape modelObjectName="Divisions_DIM" modelObjectNameSpace="Final_Organizations" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="729" y="-5"/>
+      <rectangleSize width="215"/>
+    </shape>
+    <shape modelObjectName="All_Organizations" modelObjectNameSpace="Final_Organizations" modelObjectType="JoinNodeInput">
+      <upperLeftCorner x="397" y="34"/>
+      <rectangleSize width="208"/>
+    </shape>
+    <shape expanded="true" modelObjectName="Divisions_DIM" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="565" y="356"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

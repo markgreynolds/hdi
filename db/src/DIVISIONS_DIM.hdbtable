@@ -1,0 +1,14 @@
+COLUMN TABLE "DIVISIONS_DIM" (
+    "DIVISION_ID" INTEGER unique not null COMMENT 'Division ID',
+    "DIVISION_NAME" NVARCHAR(200)  unique not null COMMENT 'Division name',
+    "DIVISION_CONTACT" NVARCHAR(200) COMMENT 'Division point of contact',
+    "DIVISION_DESCRIPTION" NVARCHAR(200) COMMENT 'Division description',
+    "DIVISION_ADDRESS" NVARCHAR(200) COMMENT 'Division address',
+    "DIVISION_CITY" NVARCHAR(200) COMMENT 'Division city',
+    "DIVISION_STATE" NVARCHAR(200) COMMENT 'Division state',
+    "DIVISION_PHONE" NVARCHAR(200) COMMENT 'Division phone',
+    "DIVISION_LATITUDE" DOUBLE COMMENT 'Division latitude (4326)',
+    "DIVISION_LONGITUDE" DOUBLE COMMENT 'Division latitude (4326)',
+    PRIMARY KEY ("DIVISION_NAME")
+)
+COMMENT 'Division Names Dimension'

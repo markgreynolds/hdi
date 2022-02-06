@@ -1,0 +1,11 @@
+column table "ORGANIZATION_CENTRAL" (
+    "ORG_ID" INTEGER  unique not null COMMENT 'Organization ID',
+    "ORG_NAME"  NVARCHAR(200) COMMENT 'Organization Name',
+    "ORG_ADDRESS" NVARCHAR(200)  COMMENT 'Primary Address',
+    "ORG_CITY" NVARCHAR(200) COMMENT 'Primary City',
+    "ORG_CONTACT" NVARCHAR(200) COMMENT 'Primary Contact Name',
+    "ORG_RATING" INTEGER COMMENT 'Overall rating',
+    "ORG_TOTAL_SALES" DOUBLE COMMENT 'Total Sales',
+    PRIMARY KEY ("ORG_ID")
+)
+COMMENT 'Customer status information'
